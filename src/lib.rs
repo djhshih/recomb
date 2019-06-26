@@ -16,7 +16,7 @@ pub fn recombine(xs: &BitSlice, ys: &BitSlice, breaks: &[usize]) -> BitVec {
             l = r;
         }
         // switch to other slice
-        if ts == xs {
+        if ts as *const _ == xs as *const _ {
             ts = ys;
         } else {
             ts = xs;
@@ -52,6 +52,8 @@ mod tests {
         let ss = bitvec![0, 1, 1, 1, 0, 1, 1];
         assert_eq!(&zs, &ss);
     }
+    
+    #[test]
     fn test_recombine_xs_short() {
         let xs = bitvec![0, 1, 1, 1, 0];
         let ys = bitvec![1, 1, 1, 0, 0, 1, 1];
@@ -62,6 +64,8 @@ mod tests {
         let ss = bitvec![0, 1, 1, 1, 0, 1, 1];
         assert_eq!(&zs, &ss);
     }
+    
+    #[test]
     fn test_recombine_ys_short() {
         let xs = bitvec![0, 1, 1, 1, 0, 0, 0];
         let ys = bitvec![1, 1, 1];
